@@ -7,9 +7,12 @@
 #include <time.h>
 #include <stdio.h>
 #include <fstream>
+#include <random>
 
 #include "Framework.h"
 using namespace std;
+
+
 
 // Screen dimensions
 int gScreenWidth{ 800 };
@@ -62,7 +65,7 @@ char map[kMazeRowsY][kMazeColumnsX] = {
 	{ 'W', '.', 'W', '.', 'W', '.', '.', '.', '.', '.', 'W', '.', 'W', '.', 'W', '.', '.', '.', 'W', 'W' },	//Y15
 	{ 'W', '.', 'W', '.', 'W', 'W', 'W', '.', '.', 'W', 'W', '.', 'W', '.', '.', '.', 'W', '.', '.', 'W' },	//Y16
 	{ 'W', '.', 'W', '.', 'W', '.', 'W', 'W', 'W', 'W', '.', '.', 'W', 'W', 'W', '.', 'W', 'W', '.', 'W' },	//Y17
-	{ 'W', 'P', '.', '.', '.', '.', '.', '.', '.', 'W', '.', '.', '.', '.', '.', '.', '.', '.', '.', 'W' },	//Y18
+	{ 'W', '.', '.', '.', '.', '.', '.', '.', '.', 'W', '.', '.', '.', '.', '.', '.', '.', '.', '.', 'W' },	//Y18
 	{ 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W' },	//Y19
 };
 
@@ -188,7 +191,7 @@ void SavePlayer(int x, int y)
 	fileOutput.close();
 }
 
-void LoadPlayer(int &x, int &y)
+void LoadPlayer(int& x, int& y)
 {
 	ifstream input("SavePlayer.txt");
 	if (!input) {
@@ -209,7 +212,7 @@ void LoadPlayer(int &x, int &y)
 void SaveMaze()
 {
 	ofstream mazeOutput("Maze1.txt");
-	if (!mazeOutput) 
+	if (!mazeOutput)
 	{
 		cerr << "Could not open file for write";
 	}
@@ -218,7 +221,7 @@ void SaveMaze()
 	//a horizontal column as named in the variable. Then, after this it means a row is complete, so add a
 	//new line character to the text file. Now we go down a row, vertically, and the x loop reinitiates 
 	//and once again loops 19 times from 0 for another full column to be completed. 
-	for (int i = 0; i < kMazeRowsY; i++) 
+	for (int i = 0; i < kMazeRowsY; i++)
 	{
 		for (int counter = 0; counter < kMazeColumnsX; counter++)
 		{
@@ -233,14 +236,14 @@ void SaveMaze()
 void LoadMaze()
 {
 	ifstream mazeInput("Maze1.txt");
-	if (!mazeInput) 
+	if (!mazeInput)
 	{
 		cerr << "Unable to read file" << endl;
 	}
 	char charVal;
 	for (int i = 0; i < kMazeRowsY; i++)
 	{
-		
+
 		for (int counter = 0; counter < kMazeColumnsX; counter++)
 		{
 			mazeInput >> charVal;
@@ -249,7 +252,7 @@ void LoadMaze()
 		}
 		cout << "\n";
 	}
-	
+
 }
 
 void PlayerInput(int x, int y) {
@@ -324,24 +327,50 @@ void PlayerInput(int x, int y) {
 	}
 }
 
+void RandomPlayerStart()
+{
+	bool looping = true;
+
+	while (looping)
+	{
+		int x = rand() % 20;
+		int y = rand() % 20;
+
+		if (map[y][x] == '.')
+		{
+			map[y][x] = 'P';
+			looping = false;
+		}
+	}
+}
+
+void LevelSelect()
+{
+	string levelInput;
+
+}
 
 
 int main()
 {
+	srand(time(0));
+
+	RandomPlayerStart();
 
 	FindPlayer();
-	//Start timer outside loop so it doesnt get restarted constantly. 
-	StartClock();
 
+	/* Start timer outside loop so it doesnt get restarted constantly */
+	StartClock();
 
 	while (UpdateFramework())
 	{
-
-		//Create/Update the maze.
+		/* Update the maze */
 		DrawMaze();
-		//Handles movement input, File saving/loading input, checking cells being moved to for various things too. 
+
+		/* Handles movement input, File saving/loading input, 
+		checking cells being moved to for various things too */
 		PlayerInput(playerX, playerY);
-		
+
 	}
 
 	return 0;
