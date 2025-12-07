@@ -139,28 +139,53 @@ void FindPlayer()
 	}
 }
 
+
+int SetScore(int& s)
+{
+	s += 1;
+	return s;
+}
+
 //Simple check to see if cell being moved to is the goal.
-bool CheckIfWon(int x, int y) {
-	if (map[y][x] == 'G') {
-		cout << "You reached the goal!" << endl;
+bool CheckIfWon(int x, int y, int& s)
+{
+	bool won = false;
+	if (map[y][x] == 'G')
+	{
+		SetScore(s);
+
 		float timeTaken = GetElapsedTime();
-		cout << "New time: " << timeTaken << " seconds" << endl;
-		return true;
+
+		cout << "Time: " << timeTaken << " seconds" << endl;
+		cout << "Score: " << s << endl;
+
+		won = true;
+		return won;
 	}
-	return false;
+	return won;
+}
+
+bool FireDamage(int x, int y)
+{
+	bool died = false;
+	return died;
 }
 
 //Function that sets a new goal character in the map array when previous goal is found.
-void NewGoalPosition() {
+void NewGoalPosition()
+{
 	int newX = rand() % 19;
 	int newY = rand() % 19;
 	bool positionFound = false;
-	while (!positionFound) {
-		if (map[newY][newX] != 'W' && map[newY][newX] != 'P') {
+	while (!positionFound)
+	{
+		if (map[newY][newX] != 'W' && map[newY][newX] != 'P')
+		{
 			map[newY][newX] = 'G';
 			positionFound = true;
 		}
-		else {
+		else
+		{
 			newX = rand() % 19;
 			newY = rand() % 19;
 		}
