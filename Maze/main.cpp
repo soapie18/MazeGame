@@ -139,6 +139,13 @@ void FindPlayer()
 	}
 }
 
+int score;
+
+int ResetScore(int& s)
+{
+	s = 0;
+	return s;
+}
 
 int SetScore(int& s)
 {
@@ -292,8 +299,10 @@ void PlayerInput(int x, int y) {
 		//being moved to is the goal. If the check for goal returns true, 
 		//we form a new goal, then the code for moving the player executes and the old goal is
 		//overwritten.
-		if (CanMoveThere(playerX - 1, playerY)) {
-			if (CheckIfWon(playerX - 1, playerY)) {
+		if (CanMoveThere(playerX - 1, playerY)) 
+		{
+			if (CheckIfWon(playerX - 1, playerY, score)) 
+			{
 				NewGoalPosition();
 			}
 			map[playerY][playerX] = '.';
@@ -303,8 +312,10 @@ void PlayerInput(int x, int y) {
 		}
 		break;
 	case EKeyPressed::eUp:
-		if (CanMoveThere(playerX, playerY - 1)) {
-			if (CheckIfWon(playerX, playerY - 1)) {
+		if (CanMoveThere(playerX, playerY - 1)) 
+		{
+			if (CheckIfWon(playerX, playerY - 1, score)) 
+			{
 				NewGoalPosition();
 			}
 			map[playerY][playerX] = '.';
@@ -314,8 +325,10 @@ void PlayerInput(int x, int y) {
 		}
 		break;
 	case EKeyPressed::eRight:
-		if (CanMoveThere(playerX + 1, playerY)) {
-			if (CheckIfWon(playerX + 1, playerY)) {
+		if (CanMoveThere(playerX + 1, playerY)) 
+		{
+			if (CheckIfWon(playerX + 1, playerY, score)) 
+			{
 				NewGoalPosition();
 			}
 			map[playerY][playerX] = '.';
@@ -325,8 +338,10 @@ void PlayerInput(int x, int y) {
 		}
 		break;
 	case EKeyPressed::eDown:
-		if (CanMoveThere(playerX, playerY + 1)) {
-			if (CheckIfWon(playerX, playerY + 1)) {
+		if (CanMoveThere(playerX, playerY + 1)) 
+		{
+			if (CheckIfWon(playerX, playerY + 1, score)) 
+			{
 				NewGoalPosition();
 			}
 			map[playerY][playerX] = '.';
@@ -379,6 +394,8 @@ void LevelSelect()
 int main()
 {
 	srand(time(0));
+
+	ResetScore(score);
 
 	RandomPlayerStart();
 
