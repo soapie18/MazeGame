@@ -172,11 +172,6 @@ bool CheckIfWon(int x, int y, int& s)
 	return won;
 }
 
-bool FireDamage(int x, int y)
-{
-	bool died = false;
-	return died;
-}
 
 //Function that sets a new goal character in the map array when previous goal is found.
 void NewGoalPosition()
